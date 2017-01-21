@@ -1,0 +1,114 @@
+#loginForm
+{
+	margin-top: 5%;
+	margin-left: 15%;
+	margin-right:15%;
+	width: 70%;
+}
+#mainLogo
+{
+	margin-top: 15%;
+	margin-left: 25%;
+	margin-right:15%;
+}
+.btn-fc
+{
+  background: #00B2ED none repeat scroll 0 0;
+color: #ffffff;
+display: inline;
+font-size: 13px;
+font-weight: 500;
+line-height: 30px;
+margin: 0;
+padding: 7px 10px;
+position: relative;
+text-align: center;
+text-transform: uppercase;
+z-index: 1;
+width:100%;
+  
+  border: 0; /* remove border   */
+  cursor: pointer;
+  
+}
+.btn-fc:hover
+{
+	background: #ffad1f;
+}
+
+.txt-fc
+{ 
+font-size:14px; 
+padding:6px; 
+border-width:3px; 
+border-radius:0px; 
+border-style:solid; 
+border-color: lightgrey;  
+} 
+		 
+.txt-fc:hover 
+{ 
+	border-color:#00B2ED;  
+}
+.txt-fc:focus
+{
+	border-color: #ffad1f;
+}
+a:hover
+{
+color: #ffad1f;
+
+}
+color-text
+{
+color:#ffad1f;
+}
+.error
+{
+	color:red;
+}
+.fc_action
+{
+ color:#ffad1f;
+}
+.fc_social
+{
+	color:#ffad1f;
+}
+nav.main-menu-area > ul.text-right > li > a 
+{
+color: black;
+}
+nav.main-menu-area > ul.text-right > li > a:hover
+{
+	color:#ffad1f;
+}
+.products-per-page form div input
+{
+	width: 80%;
+}
+.header-top-right ul li a
+{
+	color: #ffad1f;
+}
+.title .color-text
+{
+	color: #ffad1f;
+}
+.title
+{
+    color: #252525; 
+    display: inline-block; 
+    font-size: 24px; 
+    font-weight: normal; 
+    margin-bottom: 20px; 
+    position: relative; 
+    text-transform: capitalize; 
+}
+footer
+{
+	position:relative;
+ 	bottom:0;
+ 	left:0;
+width: 100%;
+}
