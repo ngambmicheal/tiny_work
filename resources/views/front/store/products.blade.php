@@ -13,7 +13,7 @@
           </div>
                   @foreach($products as $product)
                     <div class="product">
-                      <a class="single_anchor ajax_push" id="{{$product->id}}" href="/storelist/store/{{$store->username}}/products/{{$product->id}}">
+                      <a class="single_anchor ajax_push" id="{{$product->id}}" href="/{{$store->username}}/products/{{$product->id}}">
                         <div class="product-image">
                           <img src="{{$product->image}}" />
                         </div>

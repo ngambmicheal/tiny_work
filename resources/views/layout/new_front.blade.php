@@ -151,10 +151,10 @@
               <h2 class="footer-top-widget-title border-spacing"> Information </h2>
               <div class="footer-top-information">
                 <ul class="footer-top-menu">
-                  <li><a href="/storelist/store/{{$store->username}}/about">About Us</a></li>
-                  <li><a href="/storelist/store/{{$store->username}}/contact">Contact Us</a></li>
-                  <li><a href="/storelist/store/{{$store->username}}/employee">Employees</a></li>
-                  <li><a href="/storelist/store/{{$store->username}}/policy">Policies</a></li>
+                  <li><a href="/{{$store->username}}/about">About Us</a></li>
+                  <li><a href="/{{$store->username}}/contact">Contact Us</a></li>
+                  <li><a href="/{{$store->username}}/employee">Employees</a></li>
+                  <li><a href="/{{$store->username}}/policy">Policies</a></li>
                 </ul>
               </div>
             </div>
@@ -167,10 +167,10 @@
               <h2 class="footer-top-widget-title border-spacing"> Navigation </h2>
               <div class="footer-top-information">
                 <ul class="footer-top-menu">
-                  <li><a  href="/storelist/store/{{$store->username}}/policy"><?php echo $store['name']; ?></a></li>
-                  <li><a href="/storelist/store/{{$store->username}}/products">All Products</a></li>
-                  <li><a  href="/storelist/store/{{$store->username}}/sales">All Sales</a></li>
-                  <li><a href="/storelist/store/{{$store->username}}/policy">Policies</a></li>
+                  <li><a  href="/{{$store->username}}/policy"><?php echo $store['name']; ?></a></li>
+                  <li><a href="/{{$store->username}}/products">All Products</a></li>
+                  <li><a  href="/{{$store->username}}/sales">All Sales</a></li>
+                  <li><a href="/{{$store->username}}/policy">Policies</a></li>
                 </ul>
               </div>
             </div>

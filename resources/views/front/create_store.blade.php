@@ -168,7 +168,7 @@
             			var id = $(this).find(':selected')[0].value;
             			$.ajax(
             			{
-            				url: '/assets/scripts/get_areas.php',
+            				url: '/scripts/get_areas',
             				method: 'POST',
             				data: {'city_id':id},
             				/*success: function(data)

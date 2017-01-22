@@ -131,7 +131,7 @@
                         </div>
                         <div class="col-md-8 col-sm-8">
                           <div class="product-details">
-                            <h2 class="product-name"> <a href="/storelist/store/{{$store->username}}">{{$store->name}}</a> </h2> 
+                            <h2 class="product-name"> <a href="/{{$store->username}}">{{$store->name}}</a> </h2> 
                             <p>{{$store['tagline']}}</p>
                             <div class="reviews">
                               <ul class="reviews-star">
@@ -161,11 +161,11 @@
                             
                             @if($store['employment']==1)
                               <p class="product-details-content"><?php echo $store['wage_message']; ?></p>
-                              <a class="btn-fc"  href="/storelist/store/{{$store->username}}/employment"> Apply! </a> 
+                              <a class="btn-fc"  href="/{{$store->username}}/employment"> Apply! </a> 
                               &nbsp;<a href="#" class="show-store-det" id="<?php echo $store['id']; ?>" data-toggle="popover" title="Salary" data-content="<?php echo "Rs. ".$store['min_wage']." - "."Rs. ".$store['max_wage']; ?>">Employment Salary</a>
                               
                               @endif
-                          <a href="/storelist/store/{{$store->username}}">Visit Store </a> 
+                          <a href="/{{$store->username}}">Visit Store </a> 
                           </div>
                         </div>
                       </div>

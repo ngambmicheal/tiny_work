@@ -222,7 +222,7 @@
               </form>
               <a href="#" id="regNew">Register as New Employee!</a>
               <p>OR</p>
-              <a href="/storelist/store/employment/details">Already have account?</a>
+              <a href="/employment/details">Already have account?</a>
       </div>
     
       @endif
@@ -428,7 +428,7 @@
             });
           });*/
         </script>
-           <form action="/storelist/store/{{$store->username}}/employment/login" method="post" id="" name="login_form">
+           <form action="/{{$store->username}}/employment/login" method="post" id="" name="login_form">
            <span class=".error"><?php if(isset($_GET['alert'])){echo "Invalid username/password";} ?></span>
            <?php if(isset($_GET['alert'])){if($_GET['alert']==1){echo '<span style="color:Red;">Invalid Email/Password</span>';}} ?>
                 <div class="form-group">
