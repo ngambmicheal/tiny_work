@@ -128,6 +128,23 @@ $(document).ready(function()
 			}
 		});
 	});
+
+	$('.mc_click').on('click',function(e){
+	e.preventDefault();
+
+	var link = $(this).attr('link');
+
+	$.ajax({
+		url:link,
+		success:function(data){
+
+				$(".product_area").html(data);
+				$(".product_area").fadeIn(500);
+		}
+	})
+
+	return false;
+})
 });
 
 function number_format (number, decimals, dec_point, thousands_sep) {
@@ -165,3 +182,7 @@ function image_check(image)
 	}
     return 'uploads/web_service/'+no_img;
 }
+
+
+
+

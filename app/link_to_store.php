@@ -4,14 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class employee_proposal extends Model
+class link_to_store extends Model
 {
     //
-    function user(){
-    	return $this->belongsTo('App\User');
-    }
 
     function store(){
     	return $this->belongsTo('App\store');
+    }
+
+    function user(){
+    	return $this->belongsTo('App\user');
     }
 }
