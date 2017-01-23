@@ -105,14 +105,14 @@
               
               @if(Auth::check())
                 <li> <a href="/store/profile/dashboard">Profile</a></li>
-                <li><a href="/store/products/manageproducts/list">My Products</a>
+                <li><a href="/store/products/list">My Products</a>
                     <ul class="main-dropdown-menu">
-                        <li><a href="/store/products/manageproducts/add_p">Add Products</a></li>
+                        <li><a href="/store/products/add_p">Add Products</a></li>
                     </ul>
                 </li>
-                <li><a href="/store/sales/managesales/list">My Sales</a>
+                <li><a href="/store/sales/list">My Sales</a>
                     <ul class="main-dropdown-menu">
-                        <li><a href="/store/sales/managesales/create">Create Sale</a></li>
+                        <li><a href="/store/sales/create">Create Sale</a></li>
                     </ul>
                 </li>
                 <li> <a href="/store/settings">Settings</a></li>

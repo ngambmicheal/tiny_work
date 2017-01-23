@@ -9,6 +9,7 @@ use App\product;
 use DB;
 use App\link_to_store;
 use Auth;
+use App\employee_proposal as emp;
 
 class IndexController extends Controller
 {
@@ -66,10 +67,12 @@ class IndexController extends Controller
     public function show_store_sales($username, $id=null){
         $store = store::where(['username'=>$username])->first();
 
-        if(!$id) $products = $store->sales;
-        else     $products = $store->sales->where('sales.id', $id);
+        if(!$id) $sales = $store->sales;
+        else     $sales = $store->sales->where('id', $id);
 
-        return view('front.store.sales');
+      //  return $sales;
+
+        return view('front.store.sales', compact('sales','store'));
     }
 
     public function store_employment($username, $view=null){
@@ -138,6 +141,26 @@ VALUES ($store->id,'#ffad1f','#00B2ED','#00B2ED','#00B2ED','#ffad1f','#d3d3d3','
             return redirect()->back()->with('error', "An Error Occured, please contact the administrator")->withInputs();
         }
 
+    }
+
+
+    public function complete_profile(Request $request){
+        $user = Auth::user();
+
+        $user->update($request->all());
+
+        $user->profile='Complete';
+        $user->save();    
+    }
+
+    public function application(Request $request){
+        $emp = new emp;
+        $emp->user_id = $request->user;
+        $emp->store_id = $request->store;
+        $emp->salary = $request->prop_sal;
+        $emp->message = $request->prop_message;
+
+        $emp->save();
     }
 }
 

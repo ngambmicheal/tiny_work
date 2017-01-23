@@ -117,8 +117,8 @@
                       <div class="row" >
                         <div class="col-md-4 col-sm-4">
                           <div class="product-thumbnail" style="margin-top:10%; height: 250px;"> 
-                            <a href="<?php echo "/store/employment.php?view=account&store=".$store['store_id'];?>"> 
-                              <img src="<?php echo "/uploads/store/logo/".$store['logo'];?>" alt="" style="" width="250" height="250" class="front-img">
+                            <a href="/{{$store->username}}/employment/account"> 
+                              <img src="{{Helper::image_check($store['logo'])}}" alt="" style="" width="250" height="250" class="front-img">
                               <span class="product-quick-view"> 
                                 <span class="product-quick-view-table"> 
                                   <span class="product-quick-view-table-cell"> 
@@ -161,7 +161,7 @@
                             
                             @if($store['employment']==1)
                               <p class="product-details-content"><?php echo $store['wage_message']; ?></p>
-                              <a class="btn-fc"  href="/{{$store->username}}/employment"> Apply! </a> 
+                              <a class="btn-fc"  href="/{{$store->username}}/employment/account"> Apply! </a> 
                               &nbsp;<a href="#" class="show-store-det" id="<?php echo $store['id']; ?>" data-toggle="popover" title="Salary" data-content="<?php echo "Rs. ".$store['min_wage']." - "."Rs. ".$store['max_wage']; ?>">Employment Salary</a>
                               
                               @endif

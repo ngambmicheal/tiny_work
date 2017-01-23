@@ -28,7 +28,7 @@ class Helper
   	return $para;
 }
 
-function sale_price($discount, $price)
+public static function sale_price($discount, $price)
 {
     $price = trim($price);
     $discount = trim($discount);
@@ -37,7 +37,7 @@ function sale_price($discount, $price)
 	return number_format($new_price,2);
 }
 
-function discount_price($discount, $price)
+public static function discount_price($discount, $price)
 {
     $price = trim($price);
     $discount = trim($discount);
@@ -48,6 +48,10 @@ function discount_price($discount, $price)
 
 public static function image_check($image)
 {
+
+    if(stristr($image, 'http')){
+        return $image;
+    }
 	$no_image = "noimagefound.jpg";
     if(!empty($image) && file_exists('/uploads/store/products/'.$image) )
     {
@@ -104,7 +108,7 @@ function show_alert($alert)
         $reviews = $p->reviews;
         $total = $reviews->sum('rev_star');
 
-        if(!$reviews) return $avg =0;               //if no review, return 0;
+        if(!count($reviews)) return $avg =0.1;               //if no review, return 0;
         return $avg =  ceil($total/count($reviews));
     }
 

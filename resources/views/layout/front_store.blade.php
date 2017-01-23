@@ -141,13 +141,13 @@
                   </a>
                   <ul class="children nav-child unstyled small collapse in" id="sub-item-2">
                     <li class="item-1">
-                      <a class="mc_click ajax_push  " link="/{{$store->username}}/products" id="0" href="<?php echo " /index.php?store=".$store['store_username']." &view=products "; ?>" >
+                      <a class="mc_click ajax_push  " link="/{{$store->username}}/products" id="0" href="/{{$store->username}}/products">
                         <span class="lbl">All Products</span>
                       </a>
                     </li>
                   @foreach($store->categories as $cat)
                       <li class="item-1" id="cat_id{{$cat->id}}">
-                        <a class="mc_click ajax_push " id="{{$cat->id}}" link="/{{$store->username}}/category/{{$cat->id}}" href="<?php echo "/index.php?store=".$store['store_username']."&view=products&category=".$cat['id'] ?>">
+                        <a class="mc_click ajax_push " id="{{$cat->id}}" link="/{{$store->username}}/category/{{$cat->id}}" href="/{{$store['store_username']}}/category/{{$cat['id']}}">
                           <span class="lbl">{{$cat->name}}</span>
                         </a>
                       </li>
@@ -163,14 +163,14 @@
                   </a>
                   <ul class="children nav-child unstyled small collapse" id="sub-item-3">
                     <li class="item-1" id="0">
-                      <a class="mc_click ajax_push" link="/{{$store->username}}/sales" href="<?php echo "/index.php?store=".$store['store_username']."&view=sales"; ?>" id="0">
+                      <a class="mc_click ajax_push" link="/{{$store->username}}/sales" href="/{{$store->username}}/sales"  id="0">
                         <span class="lbl">All Sales</span>
                       </a>
                     </li>
                   @foreach($store->sales as $sale)
                       <li class="item-1" id="sale_id{{$sale->id}}">
-                        <a class="mc_click" link="/{{$store->username}}/sales/{{$sale->id}}" href="<?php echo "/index.php?store=".$store['store_username']."&view=sales&sale=".$sales['sale_id']; ?>" id="<?php echo $sales['sale_id']; ?>">
-                          <span class="lbl">{{ $sale['sale_name'] }}</span>
+                        <a class="mc_click" link="/{{$store->username}}/sales/{{$sale->id}}" href="/{{$store->username}}/sales/{{$sale->id}}"" id="<?php echo $sale['id']; ?>">
+                          <span class="lbl">{{ $sale['name'] }}</span>
                         </a>
                       </li>
                   @endforeach
@@ -220,14 +220,15 @@
                 <italic class="color-text">@ <?php echo $store['store_name']; ?></italic>
               </div>
             <div class="product_area wrapper">
-              <p>Choose from side menu.</p>            
+              <p>Choose from side menu.</p>  
+              @yield('content')          
             </div>
           </div>
 
 
 
 
-@yield('content')
+
 
 
 

@@ -12,6 +12,8 @@ use App\policies as policy;
 use App\product;
 use Helper;
 use App\images;
+use App\invoice;
+use App\sale;
 
 class IndexController extends Controller
 {
@@ -161,9 +163,15 @@ class IndexController extends Controller
             $request->file('productimages1')->move(public_path().'/store/products/', $filename);
             $product->img = asset('/store/products/'.$filename);
             $product->save();
+             $images = new Images;
+            $images->image = asset('/store/products/'.$filename);
+            $images->product_id = $product->id;
+          //  $images->store_id = $request->store_id;
+            $images->save();
+
         }
 
-        for($i=1; $i<=4; $i++){
+        for($i=2; $i<=4; $i++){
             $images = new Images;
             if($request->hasFile('productimages'.$i)){
             $filename = $product->code.'-'.date('y-m-d-h-i-s')."-ima_ge$i.jpg";
@@ -171,19 +179,17 @@ class IndexController extends Controller
 
             $images->image = asset('/store/products/'.$filename);
             $images->product_id = $product->id;
-            $images->store_id = $request->store_id;
+           // $images->store_id = $request->store_id;
             $images->save();
              }
         }
 
-        return 'ok';
-
-
+        return 'Product Added Successfully';
 
     }
 
-    public function manage_products($view=null){
-
+    public function manage_products($view=null, Request $request){
+       
 
         if(!$view) $type='list';
         $store = Auth::user()->stores;
@@ -194,11 +200,81 @@ class IndexController extends Controller
 
         $categories = $store->categories;
 
-        return view('store.products', compact('view', 'categories', 'store'));
+        if($view=='edit' && $request->productid){
+            $product = product::find($request->productid);
+        }
+
+        return view('store.products', compact('view', 'categories', 'store', 'product'));
     }
 
-    public function manage_sales($view=null){
+    public function manage_sales($view=null, Request $request){
+      
 
+
+
+        if(!$view) $type='list';
+        $store = Auth::user()->stores;
+        if(!$store){
+            return redirect()->to('/create_store')->with('message','create_your_store');
+        }
+        $store = $store->store;
+
+        if($view=='edit' && $request->saleid){
+            $sale = sale::find($request->saleid);
+        }
+
+        return view('store.sales', compact('view', 'categories', 'sales', 'store', 'sale'));
+    }
+
+    public function add_sale(Request $request){
+        $sale = new sale;
+        $sale->name = $request->name;
+        $sale->status = 'Active';
+        $sale->tagline = $request->tagline;
+        $sale->sale_discount = $request->discount;
+        $sale->till = $request->till;
+        $sale->store_id = $request->store_id;
+        $sale->save();
+    }
+
+    public function up_sale(Request $request){
+        $sale = sale::find($request->saleid);
+        $sale->name = $request->name;
+        $sale->status = 'Active';
+        $sale->tagline = $request->tagline;
+        $sale->sale_discount = $request->discount;
+        $sale->till = $request->till;
+        $sale->save();
+
+        return 'Ok';
+    }
+
+    public function add_product_to_sale(Request $request){
+      
+
+        foreach (json_decode($request->data) as $key => $value) {
+              $inv = new invoice;
+              $inv->sale_id = $request->saleid;
+              $inv->store_id = sale::find($request->saleid)->store_id;
+              $inv->product_id = $value;
+              $inv->save();
+        }
+    }
+
+    public function del_invoice(Request $request){
+
+        $invoice = invoice::find($request->id);
+
+        $invoice->delete();
+    }
+
+    public function cs(Request $request){
+        $sale = sale::find($request->idin);
+
+        if($sale->status=='Active') $sale->status='InActive';
+        else $sale->status='Active';
+
+        $sale->save();
     }
 
 

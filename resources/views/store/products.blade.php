@@ -176,7 +176,7 @@
                             <td class="product" style="width: 5%;">
                               <?php echo $product['quantity']; ?>
                             </td>
-                            <td class="details" style="width: 4%;"><a href="<?php echo "manageproducts.php?view=edit&productid=".$product['id']; ?>" target="_blank" id="<?php echo $product['id']; ?>">Edit</a></td>
+                            <td class="details" style="width: 4%;"><a href="<?php echo "/store/products/edit?productid=".$product['id']; ?>" target="_blank" id="<?php echo $product['id']; ?>">Edit</a></td>
                           </tr>
                       @endforeach
                       </tbody>
@@ -189,95 +189,58 @@
 
 
 
-                <?php if($view == "edit")  {
-    //$_SESSION['productid']=$_GET['productid'];
-    $stmtp = $mysqli->prepare("SELECT product_code,product_price,product_discount,product_quantity, product_category, product_name, product_desc, product_image1,product_image2,product_image3,product_image4 FROM store_products WHERE product_id = ? AND store_id=?");
-    $stmtp->bind_param("ii", $_GET['productid'],$_SESSION['storeid']);
-    $stmtp->execute();
-    $stmtp->bind_result($code, $price, $discount, $qty, $cat, $name, $desc, $img1, $img2, $img3, $img4);
-    $stmtp->fetch();
-    $stmtp->free_result();
-    $stmtp->close();
-    
-    $stmtcat = $mysqli->prepare("SELECT pc.product_category FROM store_products sp INNER JOIN store_product_categories spc ON sp.product_category=spc.id INNER JOIN product_categories pc ON spc.category=pc.id WHERE sp.store_id=? AND sp.product_id=?");
-    $stmtcat->bind_param("ii",$_SESSION['storeid'],$_GET['productid']);
-    $stmtcat->execute();
-    $stmtcat->bind_result($category);
-    $stmtcat->fetch();
-    $stmtcat->close();
-    
-    $stmtcategories = $mysqli->prepare("SELECT spc.*, product_category FROM store_product_categories spc INNER JOIN product_categories sc ON spc.category = sc.id WHERE store_id=?");
-    $stmtcategories->bind_param("i",$_SESSION['storeid']);
-    $stmtcategories->execute();
-    $resultcategories = $stmtcategories->get_result();
-    $stmtcategories->close();
-    ?>
+            @if($view == "edit") 
+  
                   <div class="col-md-7 col-sm-12">
                     <div class="company-story-content">
-                      <h2 class="title">Edit <span class="color-text"><?php echo $name; ?></span> </h2>
+                      <h2 class="title">Edit <span class="color-text"><?php echo $product->name; ?></span> </h2>
                       <form action="" method="post" id="formProduct" enctype="multipart/form-data">
-                      <input type="text" class="hidden" name="img1" value="<?php echo $img1; ?>" />
-                      <input type="text" class="hidden" name="img2" value="<?php echo $img2; ?>" />
-                      <input type="text" class="hidden" name="img3" value="<?php echo $img3; ?>" />
-                      <input type="text" class="hidden" name="img4" value="<?php echo $img4; ?>" />
+                    @foreach($product->images as $key=>$img)
+                      <input type="text" class="hidden" name="img{{($key+1)}}" value="<?php echo $img->image; ?>" />
+                   
+                    @endforeach
                         <div class="form-group">
                           <label> Code: </label>
-                          <input type="text" name="productcode" class="form-control txt-fc" value="<?php echo $code; ?>" />
+                          <input type="text" name="productcode" class="form-control txt-fc" value="<?php echo $product->code; ?>" />
                         </div>
                         <div class="form-group">
                           <label> Name: </label>
-                          <input type="text" name="productname" class="form-control txt-fc" value="<?php echo $name; ?>" />
+                          <input type="text" name="productname" class="form-control txt-fc" value="<?php echo $product->name; ?>" />
                         </div>
 
                         <input type="text" class="hidden" name="productid" value="<?php echo $_GET['productid']; ?>" />
                         <div class="form-group">
                           <label> Description </label>
-                          <textarea name="productdescs" class="form-control txt-fc"><?php echo $desc; ?></textarea>
+                          <textarea name="productdescs" class="form-control txt-fc"><?php echo $product->description; ?></textarea>
                         </div>
                         <div class="form-group">
                           <label> Category </label>
                           <select name="productcategories" class="txt-fc" style="width: 35%;">
-                            <option selected value="<?php echo $cat; ?>" style="background-color: lightgrey;">
-                              <?php echo $category; ?>
-                            </option>
-                            <?php while($cats = $resultcategories->fetch_assoc()){?>
-                              <option value="<?php echo $cats['id']; ?>">
-                                <?php echo $cats['product_category']; ?>
+                           
+                            @foreach($store->categories as $cats)
+                              <option {{$cats['id']==$product->category_id?'selected':''}} value="<?php echo $cats['id']; ?>">
+                                <?php echo $cats['name']; ?>
                               </option>
-                              <?php } ?>
+                            @endforeach
                           </select>
                           &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                           <label> Price: </label>
-                          <input type="text" name="productprice" class="txt-fc" value="<?php echo $price; ?>" />
+                          <input type="text" name="productprice" class="txt-fc" value="<?php echo $product->price; ?>" />
                         </div>
                         <div class="form-group">
                           <label> Quantity: </label>
-                          <input type="text" name="productqty" class="txt-fc" value="<?php echo $qty; ?>" /> &nbsp;&nbsp;&nbsp;
+                          <input type="text" name="productqty" class="txt-fc" value="<?php echo $product->quantity; ?>" /> &nbsp;&nbsp;&nbsp;
                           <label> Discount: </label>
-                          <input type="text" name="productdis" class="txt-fc" value="<?php echo $discount; ?>" />
+                          <input type="text" name="productdis" class="txt-fc" value="<?php echo $product->discount_price; ?>" />
                         </div>
-                        <div class="form-group">
+                    @for($i=1; $i<=4; $i++)
+                        <div class="form-group">                 
 
                           <label> Image 1 </label>
-                          <img src="<?php echo " ../../uploads/store/products/ ".$img1; ?>" height="100" width="100" />
-                          <input type="file" name="productimages1" />
+                          <img src="{{isset($product->images[$i-1])?$product->images[$i-1]->image:''}}" height="100" width="100" />
+                          <input type="file" name="productimages{{$i}}" />
                         </div>
-                        <div class="form-group">
-
-                          <label> Image 2 </label>
-                          <img src="<?php echo " ../../uploads/store/products/ ".$img2; ?>" height="100" width="100" />
-                          <input type="file" name="productimages2" />
-                        </div>
-                        <div class="form-group">
-                          <label> Image 3 </label>
-                          <img src="<?php echo " ../../uploads/store/products/ ".$img3; ?>" height="100" width="100" />
-                          <input type="file" name="productimages3" />
-                        </div>
-                        <div class="form-group">
-                          <label> Image 4 </label>
-                          <img src="<?php echo " ../../uploads/store/products/ ".$img4; ?>" height="100" width="100" />
-                          <input type="file" name="productimages4" />
-                        </div>
+                      @endfor
                         <div class="form-action clearfix">
                           <input class="btn-fc" type="submit" value="Save" name="save" style="width:100%;" />
                           <a href="JavaScript:window.close()">Close</a>
@@ -286,7 +249,7 @@
                       </form>
                     </div>
                   </div>
-                  <?php } ?>
+              @endif
 
 
 
@@ -352,7 +315,7 @@
                                 <input required type="text" name="productnames" value="" class="form-control txt-fc" />
                               </div>
                               <div class="form-group">
-
+                              <input type='hidden' value="{{$store->id}}" name='store_id'>
                               </div>
 
                               <div class="form-group">

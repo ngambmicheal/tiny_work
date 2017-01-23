@@ -195,7 +195,7 @@
       </style>
       <div class="">
       
-        <form method="post" name="registration_form" id="reg_form" action="employment.php" class="hidden">
+        <form method="post" name="registration_form" id="reg_form" action="/signup_as_employee" class="hidden">
               <input type="text" name="storeid" value="{{$store->id}}" class="hidden" />
               <div class="form-title">
             </div>
@@ -222,7 +222,7 @@
               </form>
               <a href="#" id="regNew">Register as New Employee!</a>
               <p>OR</p>
-              <a href="/employment/details">Already have account?</a>
+              <a href="details">Already have account?</a>
       </div>
     
       @endif
@@ -248,7 +248,7 @@
 
       @if($view=="details")
 
-     
+     @if(Auth::check() && Auth::user()->privilege=='employee')
 
 
         <div class="row">
@@ -270,15 +270,16 @@
             var eid = $("#empid").attr('value');
             $.ajax(
             {
-              url: '../scripts/emp_dets.php',
+              url: '/{{$store->username}}/employment/emp_dets',
               method: 'POST',
               data: $("#formEmployee").serialize(),
               success: function(d)
               {
                 console.log(d);
+                  window.location.replace("/{{$store->username}}/employment/apply");
               }
             });
-            window.location.replace("http://localhost:9999/store/employment.php?view=apply&store="+sid);
+          
           });
         });
       </script>
@@ -365,20 +366,20 @@
                 <div class="form-group">    
                 <div>
                     <input class="hidden" id="storeid" type="text" name="store" value="{{$store->id}}"/>
-                    <input class="hidden" type="text" id="empid" name="user" value="<?php echo $_GET['employee'] ?>"/>
+                    <input class="hidden" type="text" id="empid" name="user" value="{{Auth::user()->id}}"/>
                 </div>
                   <label>First Name <span>*</span></label>
-                  <input required type="text" name="firstname" class="txt-fc info form-control" id="1" maxlength="50"  />
+                  <input required type="text" name="first_name" class="txt-fc info form-control" id="1" maxlength="50" value="{{Auth::user()->first_name}} " />
                   <span id="limit1" class="limiter"></span>
                 </div>
                 <div class="form-group">
                   <label>Middle Name</label>
-                  <input type="text" name="middlename" class="txt-fc info form-control" maxlength="50" id="2" />
+                  <input type="text" name="middle_name" class="txt-fc info form-control" maxlength="50" id="2" />
                   <span id="limit2" class="limiter"></span>
                 </div>
                 <div class="form-group">
                   <label>Last Name<span>*</span></label>
-                  <input required type="text" name="lastname" class="txt-fc info form-control" maxlength="50" id="3" />
+                  <input required type="text" name="last_name" class="txt-fc info form-control" maxlength="50" id="3" />
                   <span id="limit3" class="limiter"></span>
                 </div>
                 <div class="form-group">
@@ -407,11 +408,7 @@
               </form>
           </div>
 
-
-        @endif
-
-
-      <?php  if(!isset($_GET['employee'])){ ?>
+@else
         <script>
           
           /*$(document).ready(function()
@@ -428,7 +425,7 @@
             });
           });*/
         </script>
-           <form action="/{{$store->username}}/employment/login" method="post" id="" name="login_form">
+           <form action="/login_as_employee" method="post" id="" name="login_form">
            <span class=".error"><?php if(isset($_GET['alert'])){echo "Invalid username/password";} ?></span>
            <?php if(isset($_GET['alert'])){if($_GET['alert']==1){echo '<span style="color:Red;">Invalid Email/Password</span>';}} ?>
                 <div class="form-group">
@@ -447,8 +444,9 @@
                 </div>
               </form>
 
-        <?php } 
-        ?>
+@endif
+
+@endif
 
 
         <?php if($view=="apply"){?>
@@ -460,7 +458,7 @@
               e.preventDefault();
               $.ajax(
               {
-                url: '../scripts/emp_prop.php',
+                url: '/{{$store->username}}/employment/emp_prop',
                 method: 'POST',
                 data: $("#formEmployeeProp").serialize(),
                 success: function(d)
@@ -484,7 +482,7 @@
                 <div class="form-group">    
                 <div>
                     <input class="hidden" required type="text" name="store" value="{{$store->id}}"/>
-                    <input class="hidden" type="text" name="user" value="<?php echo $_SESSION['userid']; ?>"/>
+                    <input class="hidden" type="text" name="user" value="<?php echo Auth::user()->id ?>"/>
                 </div>
                   <label>Proposed Salary <span>*</span></label>
                   Rs. <input required type="text" name="prop_sal" class="txt-fc" />

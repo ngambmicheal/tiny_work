@@ -16,6 +16,11 @@
 			$route->post('/add_pol', "IndexController@add_pol");
 			$route->post('/up_style', "IndexController@up_style");
 			$route->post('/add_product', "IndexController@add_product");
+			$route->post('/addsale', "IndexController@add_sale");
+			$route->post('/upsale', "IndexController@up_sale");
+			$route->post('/uppsale', "IndexController@add_product_to_sale");
+			$route->post('/del_invoice', "IndexController@del_invoice");
+			$route->post('/cs', "IndexController@cs");
 		});
 
 		$route->get('/products/{view?}', "IndexController@manage_products");
