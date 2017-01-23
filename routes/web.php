@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+include('store.php');
+
 
 Route::get('/', "IndexController@storelist");
 
@@ -39,5 +41,4 @@ Route::group(['prefix'=>'{username?}'], function(){
 
 Route::get('save_reviews', "IndexController@save_reviews");
 
-include('store.php');
 

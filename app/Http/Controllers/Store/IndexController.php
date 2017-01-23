@@ -9,10 +9,14 @@ use Auth;
 use App\store;
 use App\post;
 use App\policies as policy;
+use App\product;
+use Helper;
+use App\images;
 
 class IndexController extends Controller
 {
     //
+
 
     public function settings($view=null){
     	if(!$view) $type='store';
@@ -139,5 +143,64 @@ class IndexController extends Controller
            return "Successfull";
 
     }
+
+    public function add_product(Request $request){
+        $product = new product;
+        $product->name = $request->productnames;
+        $product->code = $request->productcodes;
+        $product->description = $request->productdesc;
+        $product->price = $request->productprices;
+        $product->quantity = $request->productquantities;
+        $product->discount_price = $request->productdiscounts;
+        $product->category_id = $request->productcategories;
+        $product->store_id = $request->store_id;
+        $product->save();
+
+        if($request->hasFile('productimages1')){
+            $filename = $product->code.'-'.date('y-m-d-h-i-s').'-image1.jpg';
+            $request->file('productimages1')->move(public_path().'/store/products/', $filename);
+            $product->img = asset('/store/products/'.$filename);
+            $product->save();
+        }
+
+        for($i=1; $i<=4; $i++){
+            $images = new Images;
+            if($request->hasFile('productimages'.$i)){
+            $filename = $product->code.'-'.date('y-m-d-h-i-s')."-ima_ge$i.jpg";
+            $request->file('productimages'.$i)->move(public_path().'/store/products/', $filename);
+
+            $images->image = asset('/store/products/'.$filename);
+            $images->product_id = $product->id;
+            $images->store_id = $request->store_id;
+            $images->save();
+             }
+        }
+
+        return 'ok';
+
+
+
+    }
+
+    public function manage_products($view=null){
+
+
+        if(!$view) $type='list';
+        $store = Auth::user()->stores;
+        if(!$store){
+            return redirect()->to('/create_store')->with('message','create_your_store');
+        }
+        $store = $store->store;
+
+        $categories = $store->categories;
+
+        return view('store.products', compact('view', 'categories', 'store'));
+    }
+
+    public function manage_sales($view=null){
+
+    }
+
+
 
 }

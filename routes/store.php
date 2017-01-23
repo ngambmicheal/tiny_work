@@ -15,6 +15,10 @@
 			$route->post('/emp_set', "IndexController@emp_set");
 			$route->post('/add_pol', "IndexController@add_pol");
 			$route->post('/up_style', "IndexController@up_style");
+			$route->post('/add_product', "IndexController@add_product");
 		});
+
+		$route->get('/products/{view?}', "IndexController@manage_products");
+		$route->get('/sales/{view?}', "IndexController@manage_sales");
 
 	});
