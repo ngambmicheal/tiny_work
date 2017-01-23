@@ -76,8 +76,8 @@
                 <li><a href="#"><i class="fa fa-user-o"></i></a>
                   <ul class="header-top-right-dropdown">
                     <li><a href="#">My Account</a></li>
-                    @if(Auth::check()) <li><a href="/includes/logout.php">Log Out</a></li>
-                    @else              <li><a href="login.php?view=login">Log In</a></li>
+                    @if(Auth::check()) <li><a href="/logout">Log Out</a></li>
+                    @else              <li><a href="/login">Log In</a></li>
                     @endif  
                   </ul>
                 </li>
@@ -94,16 +94,16 @@
         <div class="row mega-menu-relative"> 
           <!-- Main Logo Area -->
           <div class="col-md-3 col-sm-12 hidden-xs">
-            <div class="logo"> <a href="index.php"> <img class="img-responsive" src="/uploads/Weblogo/flashcart.png" alt="Flast Cart" width="100" height="100"> </a> </div>
+            <div class="logo"> <a href="/"> <img class="img-responsive" src="/uploads/Weblogo/flashcart.png" alt="Flast Cart" width="100" height="100"> </a> </div>
           </div>
           <!-- Main Menu Area -->
           <div class="col-md-9 col-sm-12 hidden-xs">
             <nav class="main-menu-area">
               <ul class="text-right">
-              <li><a href="/index">Home</a></li>
+              <li><a href="/">Home</a></li>
               <li><a href="/storelist">Stores List</a></li>
               
-              @if(Auth::check())
+              @if(Auth::check() && Auth::user()->stores)
                 <li> <a href="/store/profile/dashboard">Profile</a></li>
                 <li><a href="/store/products/list">My Products</a>
                     <ul class="main-dropdown-menu">
@@ -225,7 +225,7 @@
           <!-- Copyright Text -->
           <div class="col-md-6 col-sm-6">
             <div class="copyright-text">
-              <p style="color:black"> Copyright &copy; <a href="index.php" style="color: #ffad1f;"> FlashCart 2016</a>. All Rights Reserved. </p>
+              <p style="color:black"> Copyright &copy; <a href="/" style="color: #ffad1f;"> FlashCart 2016</a>. All Rights Reserved. </p>
             </div>
           </div>
         </div>

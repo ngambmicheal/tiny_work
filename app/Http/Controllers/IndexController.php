@@ -10,6 +10,7 @@ use DB;
 use App\link_to_store;
 use Auth;
 use App\employee_proposal as emp;
+use App\User;
 
 class IndexController extends Controller
 {
@@ -133,12 +134,12 @@ VALUES ($store->id,'#ffad1f','#00B2ED','#00B2ED','#00B2ED','#ffad1f','#d3d3d3','
         $link->user_id = Auth::user()->id;
         $link->save();
 
-        return redirect('/store/profile/');
+        return redirect('/store/settings/');
 
         }
 
         else{
-            return redirect()->back()->with('error', "An Error Occured, please contact the administrator")->withInputs();
+            return redirect()->back()->with('error', "An Error Occured, please contact the administrator");
         }
 
     }
@@ -154,6 +155,16 @@ VALUES ($store->id,'#ffad1f','#00B2ED','#00B2ED','#00B2ED','#ffad1f','#d3d3d3','
     }
 
     public function application(Request $request){
+
+        $check = emp::where(['user_id'=>$request->user, 'store_id'=>$request->store])->first();
+
+        if($check) return ['error'=>'yes','message'=>'You have already applied to this store'];
+        $check = emp::where(['user_id'=>$request->user])->where('status','!=','pending')->get();
+
+        if(count($check)>2){
+            return ['error'=>'yes','message'=>'You have already 2 pending applications'];
+        }
+
         $emp = new emp;
         $emp->user_id = $request->user;
         $emp->store_id = $request->store;
@@ -161,7 +172,11 @@ VALUES ($store->id,'#ffad1f','#00B2ED','#00B2ED','#00B2ED','#ffad1f','#d3d3d3','
         $emp->message = $request->prop_message;
 
         $emp->save();
+
+        return ['error'=>'no','message'=>'You have applied. Wait till your store replies. Good luck!'];
     }
+
+
 }
 
 

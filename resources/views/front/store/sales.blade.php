@@ -1,8 +1,5 @@
 
-   <div class="container store-contents">
-                    <div class="store-signature">
-                <italic class="color-text">@ <?php echo $store['name']; ?></italic>
-              </div>
+
                    @foreach($sales as $sale)
                       <script>
                         $(document).ready(function() {
@@ -52,7 +49,4 @@
                   @endforeach
 
               @endforeach
-                    
-                      </div>
-                    </div>
-          
+                   

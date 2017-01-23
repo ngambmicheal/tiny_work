@@ -3,6 +3,13 @@
 
 @section('content')
 
+
+
+@if(Session::has('apply'))
+      <script type="text/javascript">
+         window.location.replace("/{{$store->username}}/employment/details");
+      </script>
+@endif
   <!-- /End Mian Header --> 
   <!-- Start Breadcrumb Area-->
    <div class="breadcrumb-area">
@@ -150,6 +157,14 @@
           </div>
         </div>
       </div>
+
+
+      <div class="row">
+      <div class="col-sm-12">
+          <span class="error">{{Session::get('error') }}</span>
+          <span class="success">{{Session::get('message')}}</span>
+      </div>
+      </div>
       <!-- /End Products Descriptions Tabs --> 
       <!-- Related Products Title -->
     @if($view=='account')
@@ -195,7 +210,7 @@
       </style>
       <div class="">
       
-        <form method="post" name="registration_form" id="reg_form" action="/signup_as_employee" class="hidden">
+        <form method="post" name="registration_form" id="reg_form" action="/register_as_employee" class="hidden">
               <input type="text" name="storeid" value="{{$store->id}}" class="hidden" />
               <div class="form-title">
             </div>
@@ -374,32 +389,32 @@
                 </div>
                 <div class="form-group">
                   <label>Middle Name</label>
-                  <input type="text" name="middle_name" class="txt-fc info form-control" maxlength="50" id="2" />
+                  <input type="text" name="middle_name" class="txt-fc info form-control" maxlength="50" id="2"  value="{{Auth::user()->middle_name}} "/>
                   <span id="limit2" class="limiter"></span>
                 </div>
                 <div class="form-group">
                   <label>Last Name<span>*</span></label>
-                  <input required type="text" name="last_name" class="txt-fc info form-control" maxlength="50" id="3" />
+                  <input required type="text" name="last_name" class="txt-fc info form-control" maxlength="50" id="3" value="{{Auth::user()->last_name}} " />
                   <span id="limit3" class="limiter"></span>
                 </div>
                 <div class="form-group">
                   <label>Contact<span>* (eg 021-12345678)</span></label>
-                  <input type="text" name="contact" class="txt-fc info form-control" maxlength="12" id="4" />
+                  <input type="text" name="contact" class="txt-fc info form-control" maxlength="12" id="4" value="{{Auth::user()->contact}} "/>
                   <span id="limit4" class="limiter"></span>
                 </div>
                 <div class="form-group">
                   <label>Mobile<span>* (eg 0333-1234567)</span></label>
-                  <input required type="text" name="mobile" class="txt-fc info form-control" maxlength="12" id="5" />
+                  <input required type="text" name="mobile" class="txt-fc info form-control" maxlength="12" id="5"  value="{{Auth::user()->mobile}} "/>
                   <span id="limit5" class="limiter"></span>
                 </div>
                 <div class="form-group">
                   <label>Date of Birth<span>* (eg DD-MM-YYYY)</span></label>
-                  <input required type="text" name="dob" class="txt-fc info form-control" maxlength="10" id="6" /> 
+                  <input required type="text" name="dob" class="txt-fc info form-control" maxlength="10" id="6"  value="{{Auth::user()->dob}} "/> 
                   <span id="limit6" class="limiter"></span>
                 </div>
                 <div class="form-group">
                   <label>NIC<span>* (eg xxxxx-xxxxxxx-x)</span></label>
-                  <input required type="text" name="nic" class="txt-fc info form-control" maxlength="15" id="7" /> 
+                  <input required type="text" name="ntc" class="txt-fc info form-control" maxlength="15" id="7" value="{{Auth::user()->ntc}} "/> 
                   <span id="limit7" class="limiter"></span>
                 </div>
                 <div class="form-action">
@@ -444,6 +459,8 @@
                 </div>
               </form>
 
+               <a href="account" id="regNew">Register as New Employee!</a>
+
 @endif
 
 @endif
@@ -461,13 +478,22 @@
                 url: '/{{$store->username}}/employment/emp_prop',
                 method: 'POST',
                 data: $("#formEmployeeProp").serialize(),
+                dataType:'json',
                 success: function(d)
                 {
                   console.log(d);
+                   $("#formEmployeeProp").fadeOut('800');
+                  if(d.error=='no'){                      
+                         $("#formDiv").html(d.message);
+                  }
+                  else{
+                      $('#formDiv').html("<span class='error'>"+d.message+"</span>");
+                  }
+             
                 }
               });
-              $("#formEmployeeProp").fadeOut('800');
-              $("#formDiv").html("<p>You have applied. Wait till your store replies. Good luck!</p>");
+             
+              
             });
           });  
 
@@ -517,3 +543,4 @@
  
 
   @stop
+

@@ -24,6 +24,9 @@ class LoginController extends Controller
             if(Auth::user()->privilege=='Owner' && !Auth::user()->stores){
                 return redirect()->to('/create_store')->with('message', "Open Your Store");
             }
+            if(Auth::user()->privilege!="Owner" && !Auth::user()->stores){
+                return redirect()->to('/storelist');
+            }
     	
     		return redirect()->intended('/store/profile')->with('message', 'Login Successful!');
     	}
@@ -32,6 +35,27 @@ class LoginController extends Controller
     		return redirect()->back()->with('error', 'Wrong Email/password');
     	}
     }
+
+     public function login_as_employee(Request $request){
+
+        //$request contains all the parameters sent as get or post e.g $request->name = $_GET['name']
+
+        $email = $request->email;
+        $password = $request->password;
+
+    //try to login with email or username
+        if(Auth::attempt(['email'=>$email, 'password'=>$password]) || Auth::attempt(['username'=>$email, 'password'=>$password] )  ){
+
+            if(Auth::user()->privilege!='employee') return redirect()->back()->with('error', 'Sorry, This is not an employee account');
+
+            return redirect()->back()->with('message', 'Login Successful!')->with('apply','apply');
+        }
+
+        else{
+            return redirect()->back()->with('error', 'Wrong Email/password');
+        }
+    }
+
 
     public function register(RegisterRequest $request){   
 
@@ -43,9 +67,25 @@ class LoginController extends Controller
     	if($user->save()){			//if user was created
 
     		Auth::login($user);		//login the user
-    		return redirect()->to('/create_store')->with('message', "You Successful Registered!");
+    		return redirect()->to('/create_store')->with('message', "You Successful Registered!")->with('apply','apply');
 
     	}
+
+    }
+
+       public function register_as_employee(RegisterRequest $request){   
+
+        $user = new User;               //create new user
+        $user->username = $request->username;
+        $user->email    = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->privilege = 'employee';
+        if($user->save()){          //if user was created
+
+            Auth::login($user);     //login the user
+            return redirect()->back()->with('message', "You Successful Registered!")->with('apply','apply');
+
+        }
 
     }
 

@@ -21,6 +21,9 @@
 			$route->post('/uppsale', "IndexController@add_product_to_sale");
 			$route->post('/del_invoice', "IndexController@del_invoice");
 			$route->post('/cs', "IndexController@cs");
+			$route->post('/get_request_details', "IndexController@get_request_details");
+			$route->post('/accept_request', "IndexController@approve_request");
+			$route->post('/reject_request', "IndexController@reject_request");
 		});
 
 		$route->get('/products/{view?}', "IndexController@manage_products");

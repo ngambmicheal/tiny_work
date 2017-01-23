@@ -9,7 +9,7 @@
         <div class="col-md-12 col-sm-12">
           <div class="breadcrumb-container">
             <ol class="breadcrumb">
-                <li><a href="../store/profile.php">Profile</a></li>
+                <li><a href="/store/profile">Profile</a></li>
               </ol>
           </div>
         </div>
@@ -209,7 +209,7 @@ function textAreaAdjust(o) {
         </script>
         <div class="col-md-7 col-sm-12">
           <div class="company-story-content">
-            <h2 class="title">Dashboard <span class="color-text">{{$store->username}}></span> </h2>
+            <h2 class="title">Dashboard <span class="color-text">{{$store->username}}</span> </h2>
 
             <div id="postDiv">
 
@@ -276,22 +276,22 @@ function textAreaAdjust(o) {
               var id = $(this).attr("id");
               $.ajax(
               {
-                url: '../scripts/emp_prof_det.php',
+                url: '/store/scripts/get_request_details',
                 method: 'POST',
                 data: {"id":id},
                 dataType: "json", 
                 success: function(data)
                 {
-                  first_name = data.first_name;
-                  middle_name = data.middle_name;
-                  last_name = data.last_name;
-                  e = data.email;
-                  p = data.contact;
-                  m = data.mobile;
-                  pm = data.prop_message;
-                  ps = data.prop_status;
-                  ao = data.prop_date;
-                  ei = data.emp_id;
+                  first_name = data.user.first_name;
+                  middle_name = data.user.middle_name;
+                  last_name = data.user.last_name;
+                  e = data.user.email;
+                  p = data.user.contact;
+                  m = data.user.mobile;
+                  pm = data.message;
+                  ps = data.status;
+                  ao = data.created_at;
+                  ei = data.user_id;
                   id = data.id;
                   $("#emp_f").text(first_name);
                   $("#emp_full").text(first_name + " " + middle_name + " " + last_name);
@@ -371,7 +371,7 @@ function textAreaAdjust(o) {
               
               $.ajax(
               {
-                url: '../scripts/prop_acc.php',
+                url: '/store/scripts/accept_request',
                 method: 'POST',
                 data: {"id": arr[0],"emp_id": arr[1]},
                 success: function(d)
@@ -396,7 +396,7 @@ function textAreaAdjust(o) {
                 e.preventDefault();
                 $.ajax(
                 {
-                  url: '../scripts/prop_rej.php',
+                  url: '/store/scripts/reject_request',
                   method: 'POST',
                   data: {"id": arr[0], "message": message},
                   success: function(d)

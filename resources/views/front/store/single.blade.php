@@ -2,10 +2,7 @@
 
 @section('content')
 
- <div class="container store-contents">
-            <div class="store-signature">
-                <italic class="color-text">@ <?php echo $store['name']; ?></italic>
-              </div>
+
 
                   <script>
                     $(document).ready(function()
@@ -119,8 +116,5 @@
 
 
 
-                </div>
-
-            </div>
-
+            
   @stop

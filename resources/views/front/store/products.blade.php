@@ -1,9 +1,4 @@
-        <div class="container store-contents">
-              <div class="store-signature">
-                <italic class="color-text">@ <?php echo $store['store_name']; ?></italic>
-              </div>
-                <div class="product_area wrapper">
-                  <div class="products_title">
+  
             <center>
               <span>--------</span>
               <h2 class="title">Products</h2>
@@ -31,6 +26,5 @@
                       </div>
                     </div>
                   
-                </div>
-              </div>
+             
             @endforeach

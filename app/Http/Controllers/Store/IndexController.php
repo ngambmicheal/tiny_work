@@ -14,6 +14,10 @@ use Helper;
 use App\images;
 use App\invoice;
 use App\sale;
+use App\User;
+use App\employee_proposal as emp;
+use App\employee;
+use App\link_to_store;
 
 class IndexController extends Controller
 {
@@ -24,8 +28,9 @@ class IndexController extends Controller
     	if(!$view) $type='store';
     	$store = Auth::user()->stores;
 
-        if(!$store){
-            return redirect()->to('/create_store')->with('message','create_your_store');
+        if(!$store ){
+            if(Auth::user()->privilege=='Owner') return redirect()->to('/create_store')->with('message','create_your_store');
+            else return redirect()->to('/storelist')->with('message', "Apply for a store");
         }
 
         $store = $store->store;
@@ -47,9 +52,12 @@ class IndexController extends Controller
     public function profile($view=null){
       $store = Auth::user()->stores;
 
-        if(!$store){
-            return redirect()->to('/create_store')->with('message','create_your_store');
+       
+        if(!$store ){
+            if(Auth::user()->privilege=='Owner') return redirect()->to('/create_store')->with('message','create_your_store');
+            else return redirect()->to('/storelist')->with('message', "Apply for a store");
         }
+
         $store = $store->store;
 
         return view('store.profile', compact('view','store'));
@@ -193,9 +201,12 @@ class IndexController extends Controller
 
         if(!$view) $type='list';
         $store = Auth::user()->stores;
-        if(!$store){
-            return redirect()->to('/create_store')->with('message','create_your_store');
+        
+        if(!$store ){
+            if(Auth::user()->privilege=='Owner') return redirect()->to('/create_store')->with('message','create_your_store');
+            else return redirect()->to('/storelist')->with('message', "Apply for a store");
         }
+
         $store = $store->store;
 
         $categories = $store->categories;
@@ -214,9 +225,12 @@ class IndexController extends Controller
 
         if(!$view) $type='list';
         $store = Auth::user()->stores;
-        if(!$store){
-            return redirect()->to('/create_store')->with('message','create_your_store');
+       
+        if(!$store ){
+            if(Auth::user()->privilege=='Owner') return redirect()->to('/create_store')->with('message','create_your_store');
+            else return redirect()->to('/storelist')->with('message', "Apply for a store");
         }
+        
         $store = $store->store;
 
         if($view=='edit' && $request->saleid){
@@ -275,6 +289,57 @@ class IndexController extends Controller
         else $sale->status='Active';
 
         $sale->save();
+    }
+
+     public function get_request_details(Request $request){
+        $emp = emp::find($request->id);
+        $emp->user = $emp->user;
+        return $emp;
+    }
+
+    public function reject_request(Request $request){
+        $emp = emp::find($request->id);
+        $emp->status = 'Rejected';
+        $emp->reason = $request->message;
+        $emp->save();
+
+        $check = employee::where(['user_id'=>$emp->user_id,'store_id'=>$emp->store_id])->first();
+        if($check) $check->delete();
+
+        $check = link_to_store::where(['user_id'=>$emp->user_id,'store_id'=>$emp->store_id])->first();
+        if($check) $check->delete();
+
+        return 'Rejected';
+    }
+
+    public function approve_request(Request $request){
+        $emp = emp::find($request->id);
+        $emp->status ='Accepted';
+        $emp->save();
+
+         $check = employee::where(['user_id'=>$emp->user_id,'store_id'=>$emp->store_id])->first();
+    if(!$check) {
+        $employee = new employee; 
+        $employee->user_id = $emp->user_id;
+        $employee->store_id = $emp->store_id;
+        $employee->status = 'Serving';
+        $employee->employment_date = date('Y-m-d H:i:s');
+        $employee->save();
+
+    }
+
+        $check = link_to_store::where(['user_id'=>$emp->user_id,'store_id'=>$emp->store_id])->first();
+    if(!$check){
+              $link_to_store = new link_to_store;
+        $link_to_store->user_id = $emp->user_id;
+        $link_to_store->store_id = $emp->store_id;
+        $link_to_store->save();
+
+    }
+
+
+      
+        return "Accepted";
     }
 
 

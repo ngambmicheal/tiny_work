@@ -17,6 +17,9 @@ Route::get('/', "IndexController@storelist");
 
 
 Route::get('/login', "IndexController@login");
+Route::post('/login_as_employee', "LoginController@login_as_employee");
+Route::post('/register_as_employee', "LoginController@register_as_employee");
+
 Route::post('/login', "LoginController@signin");
 Route::post('/register', "LoginController@register");
 Route::get('/register', 'IndexController@register');
@@ -24,7 +27,7 @@ Route::get('/register_success', "LoginController@register_success");
 Route::get('/logout', "LoginController@logout");
 Route::get('/contact', "IndexController@login");
 Route::get('/create_store', 'IndexController@create_store');
-Route::post('/create_store', 'IndexController@save_store');
+Route::post('/save_store', 'IndexController@save_store');
 
 	Route::get('/storelist', "IndexController@storelist");
 	Route::get('/storelist/category/{id?}', "IndexController@storelist_cat");

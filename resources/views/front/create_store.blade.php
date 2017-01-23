@@ -197,7 +197,7 @@
             	});
             </script>
             
-              <form id="formStore" method="POST" action="">
+              <form id="formStore" method="POST" action="/save_store">
                 <div class="form-title">
                 </div>
                 <div class="form-group">

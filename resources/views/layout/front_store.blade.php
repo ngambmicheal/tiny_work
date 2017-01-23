@@ -217,7 +217,7 @@
 
        <div class="container store-contents">
             <div class="store-signature">
-                <italic class="color-text">@ <?php echo $store['store_name']; ?></italic>
+                <italic class="color-text">@ <?php echo $store['name']; ?></italic>
               </div>
             <div class="product_area wrapper">
               <p>Choose from side menu.</p>  
