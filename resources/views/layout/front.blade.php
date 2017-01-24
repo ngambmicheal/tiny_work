@@ -67,7 +67,7 @@
               <ul>
                 <li class="mobile-search"><a href="#"><i class="fa fa-search"></i></a>
                   <div class="search-box-area">
-                    <form action="productlist.php" method="GET">
+                    <form action="/productlist" method="GET">
                       <input type="text" name="s" placeholder="Find your favourite products..." class="txt-fc" />
                     </form>
                   </div>

@@ -12,5 +12,9 @@ class product extends Model
     	return $this->hasMany('App\images');
     }
 
+    function store_details(){
+    	return $this->belongsTo('App\store','store_id');
+    }
+
    
 }

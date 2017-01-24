@@ -31,6 +31,7 @@ Route::post('/save_store', 'IndexController@save_store');
 
 	Route::get('/storelist', "IndexController@storelist");
 	Route::get('/storelist/category/{id?}', "IndexController@storelist_cat");
+	Route::get('/productlist', "IndexController@productlist");
 
 
 

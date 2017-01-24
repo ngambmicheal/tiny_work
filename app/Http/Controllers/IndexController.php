@@ -176,6 +176,19 @@ VALUES ($store->id,'#ffad1f','#00B2ED','#00B2ED','#00B2ED','#ffad1f','#d3d3d3','
         return ['error'=>'no','message'=>'You have applied. Wait till your store replies. Good luck!'];
     }
 
+    public function productlist(Request $request){
+
+        $p = product::orderBy('name','asc');
+        if($request->s) $p = $p->where('name','like',"%$request->s")->orWhere('description','like',"%$request->s");
+
+         $products = $p->get();
+
+
+        return view('front.productlist', compact('products'));
+    }
+
+
+
 
 }
 
