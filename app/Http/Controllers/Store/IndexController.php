@@ -18,6 +18,7 @@ use App\User;
 use App\employee_proposal as emp;
 use App\employee;
 use App\link_to_store;
+use App\product_category;
 
 class IndexController extends Controller
 {
@@ -340,6 +341,24 @@ class IndexController extends Controller
 
       
         return "Accepted";
+    }
+
+
+    public function new_cat(Request $request){
+
+        foreach($request->all() as $key=>$value){
+
+                if($key!='store_id'){
+                    $cat = new product_category;
+                    $cat->store_id = $request->store_id;
+                    $cat->name = $value;
+                    $cat->save();
+                }                   
+
+        }
+
+        return "Successfull!";
+
     }
 
 

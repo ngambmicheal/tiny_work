@@ -456,7 +456,9 @@
                 {
                   var n = $('.text-category').length + 1;
 
-                  var category_html = $('<p class="text-category"><label for="category' + n + '">Category <span class="category-number">' + '</span></label> <select class="form-control txt-fc" required type="text" name="categories[]" value="" id="category1">                         @foreach($store->categories as $cat)  <option value="{{$cat->id}}">{{$cat->name}}</option>           @endforeach                       </select> <a href="#" class="remove-category">Remove</a></p>');
+                  //var category_html = $('<p class="text-category"><label for="category' + n + '">Category <span class="category-number">' + '</span></label> <select class="form-control txt-fc" required type="text" name="categories[]" value="" id="category1">                         @foreach($store->categories as $cat)  <option value="{{$cat->id}}">{{$cat->name}}</option>           @endforeach                        </select><a href="#" class="remove-category">Remove</a></p>');
+
+                  var category_html = $('<p class="text-category"><label class="category-number">New category</label> <input type="text" name="category_'+n+'" placeholder="e.g new category" class="form-control"><a href="#" class="remove-category">Remove</a></p>')
                   category_html.hide();
                   $('.cat-form p.text-category:last').after(category_html);
                   category_html.fadeIn('slow');
@@ -484,7 +486,7 @@
                     e.preventDefault();
                     $.ajax(
                     {
-                       url: '../scripts/cat_new.php',
+                       url: '/store/scripts/cat_new',
                        method: 'POST',
                        data: $("#newCats").serializeArray(),
                        success: function(d)
@@ -567,6 +569,7 @@
 
                           </div>
                         </div>
+                      <input type="hidden" value="{{$store->id}}" name="store_id">
                         <div class="form-action clearfix">
                         <input class="store-save btn-fc" type="submit" value="Save" style="width:100%;" />
                     </div>

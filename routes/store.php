@@ -24,6 +24,7 @@
 			$route->post('/get_request_details', "IndexController@get_request_details");
 			$route->post('/accept_request', "IndexController@approve_request");
 			$route->post('/reject_request', "IndexController@reject_request");
+			$route->post('/cat_new', "IndexController@new_cat");
 		});
 
 		$route->get('/products/{view?}', "IndexController@manage_products");

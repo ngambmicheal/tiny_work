@@ -97,7 +97,7 @@
                           <br />
                           <div id="productDetails">
                             <span>Description: </span>
-                            <p><?php echo $product['desc']; ?></p>
+                            <p><?php echo $product['description']; ?></p>
                           </div>
                         </div>
 
