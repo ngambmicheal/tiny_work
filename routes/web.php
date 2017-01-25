@@ -37,6 +37,10 @@ Route::post('/save_store', 'IndexController@save_store');
 
 Route::get('save_reviews', "IndexController@save_reviews");
 
+Route::group(['prefix'=>'/scripts'], function($route){
+	$route->post('/get_areas', "ScriptController@get_areas");
+});
+
 
 
 

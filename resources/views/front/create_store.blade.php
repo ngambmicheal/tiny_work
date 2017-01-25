@@ -184,13 +184,13 @@
 	
 							success: function(data) 
 							{ 
-								var $area = $('#area'); 
-								$area.empty(); 
-								for (var i = 0; i < data.length; i++) 
-								{ 
-									var obj = jQuery.parseJSON(data); 
-									$area.append('<option value=' + obj[i].area_id + '>' + obj[i].area + '</option>'); 
-								} 
+								var $area = $('#area').html(data);
+								// $area.empty(); 
+								// for (var i = 0; i < data.length; i++) 
+								// { 
+								// 	var obj = jQuery.parseJSON(data); 
+								// 	$area.append('<option value=' + obj[i].area_id + '>' + obj[i].area + '</option>'); 
+								// } 
 							} 
             			});
             		});
